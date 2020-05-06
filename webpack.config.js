@@ -6,7 +6,7 @@ const { VueLoaderPlugin } = require("vue-loader");
 //生成html入口文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
-    entry: "./src/main.js",
+    entry: "./main.js",
     output: {
         filename: "bundle.js",
         path: path.join(__dirname, `dist`),
