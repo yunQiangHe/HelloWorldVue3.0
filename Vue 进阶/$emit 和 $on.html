@@ -8,11 +8,12 @@
 
 <head>
     <title>$emit 和 $on</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./vue.js"></script>
 </head>
 
 <body>
     <div id="root">
+        <p>事件的定义和消费分开 实现逻辑的解耦</p>
         <button @click="boost">触发事件</button>
     </div>
     <script>
@@ -24,6 +25,10 @@
                 }
             },
             created() {
+                // 定义 监听事件 event callback
+                // 监听当前实例上的自定义事件。
+                // 事件可以由 vm.$emit 触发。
+                // 回调函数会接收所有传入事件触发函数的额外参数。
                 this.$on('my_events', this.handleEvents)
             },
             methods: {
@@ -31,6 +36,8 @@
                     console.log(this.message, e)
                 },
                 boost() {
+                    // 消费 触发事件 event [...args]
+                    // 触发当前实例上的事件。附加参数都会传给监听器回调。
                     this.$emit('my_events', 'my params')
                 }
             }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="ipuntValue" v-autofocus.a.b="1+1">
+        <p>Scroll down the page</p>
+        <p v-pin:[direction]="{x:200,y:200}">I am pinned onto the page at 200px to the left.</p>
+    </div>
+</body>
+
+</html>
+<script>
+    // 全局和局部注册自定义指令
+
+    Vue.directive("autofocus", {
+        // 钩子函数的参数 (即 el、binding、vnode 和 oldVnode)
+        bind(el, binding, vnode, oldVnode) {
+            console.log(`bind`)
+            console.log(el)
+            console.log(binding)
+            console.log(vnode)
+            console.log(oldVnode)
+        },
+        inserted(el, binding, vnode, oldVnode) { //当被绑定的元素插入到 DOM 中时
+            console.log(`inserted`)
+            el.focus()
+        },
+        update(el, binding, vnode, oldVnode) {
+            console.log(`update`)
+        },
+        componentUpdated(el, binding, vnode, oldVnode) {
+            console.log(`componentUpdated`)
+        },
+        unbind(el, binding, vnode, oldVnode) {
+            console.log(`unbind`)
+        }
+    })
+
+    // 函数简写
+    // 在很多时候，你可能想在bind和update时触发相同行为，而不关心其它的钩子。比如这样写:
+    Vue.directive('color-swatch', function(el, binding) {
+        el.style.backgroundColor = binding.value
+    })
+
+
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                ipuntValue: "",
+                direction: "left"
+            }
+        },
+        directives: {
+            "pin": {
+                bind(el, binding) {
+                    console.log("**************")
+                    console.log(binding)
+                    console.log(binding.arg)
+                    console.log(binding.value)
+                    let d = binding.arg;
+                    el.style.position = "fixed";
+                    el.style[d] = binding.value.x + 'px';
+                    el.style.top = binding.value.y + 'px';
+                }
+            }
+        }
+    })
+</script>
